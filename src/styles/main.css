@@ -1,0 +1,103 @@
+@import "transitions.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --orange: #f59e0b;
+    --red: #ff5e3a;
+    --green: #20d862;
+}
+
+body {
+    scrollbar-gutter: stable;
+}
+
+* {
+    transition: all 0.15s ease;
+    outline: 2px solid transparent;
+}
+
+*:focus-visible {
+    outline: 2px solid var(--green);
+}
+
+a:hover {
+    color: var(--orange);
+    text-decoration: none;
+}
+
+.text-orange {
+    color: var(--orange) !important;
+    fill: var(--orange) !important;
+}
+
+.card-header .fa.text-orange,
+.card .card-header .fas.text-orange {
+    color: var(--red);
+    fill: var(--red);
+}
+
+.introduction-bg {
+    animation: slide 500000s linear infinite;
+    will-change: background-position;
+    z-index: -1;
+    background-position: 0 0;
+}
+
+#playlist li:first-child {
+    padding-top: 25px;
+}
+
+.upload-dropbox.upload-dropbox-drag {
+    color: #fff;
+    background-color: var(--green);
+    border-color: var(--green);
+    border-style: solid;
+}
+
+input[type="file"] {
+    margin-top: 20px;
+}
+
+.progress-bar {
+    --gray: rgba(255, 255, 255, 0.15);
+    background-size: 1rem 1rem;
+    background-image: linear-gradient(
+            45deg,
+            var(--gray) 25%,
+            transparent 25%,
+            transparent 50%,
+            var(--gray) 50%,
+            var(--gray) 75%,
+            transparent 75%,
+            transparent
+    );
+    animation: progress-bar-stripes 1s linear infinite;
+}
+
+.music-bg {
+    animation: slide 500000s linear infinite;
+    will-change: background-position;
+    background-position: 0 0;
+    background-size: 1000px auto;
+}
+
+@keyframes progress-bar-stripes {
+    0% {
+        background-position: 1rem 0;
+    }
+    100% {
+        background-position: 0 0;
+    }
+}
+
+@keyframes slide {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: calc(1000000 * 40px) 0;
+    }
+}
