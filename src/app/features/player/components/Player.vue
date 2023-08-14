@@ -7,7 +7,7 @@
 			</div>
 			<div class="flex flex-nowrap gap-4 items-center">
 				<button type="button" @click="toggleSongAudio">
-					<i class="fa text-gray-500 text-xl" :class="playingButtonIcon"/>
+					<i class="fa text-gray-500 text-xl" :class="playingIcon"/>
 				</button>
 				<div class="player-currenttime">{{ formatTime(soundInfo.playedTime) }}</div>
 				<div @click="handleSeekAudioTo" class="w-full h-2 rounded bg-gray-200 relative cursor-pointer">
@@ -30,7 +30,7 @@ import {formatTime} from "@/app/shared/utils/formatTime";
 
 const playerStore = usePlayerStore();
 const {toggleSongAudio, seekAudioTo} = playerStore;
-const {soundInfo, song, playingButtonIcon} = storeToRefs(playerStore);
+const {soundInfo, song, playingIcon} = storeToRefs(playerStore);
 
 function handleSeekAudioTo(event: MouseEvent) {
 	const {x, width} = (event.currentTarget as HTMLDivElement).getBoundingClientRect();

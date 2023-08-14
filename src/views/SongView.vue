@@ -4,8 +4,8 @@
 			<section class="w-full mb-8 py-14 text-center text-white relative">
 				<div class="absolute inset-0 bg-[url('/img/song-header.png')] w-full h-full box-border bg-contain music-bg"/>
 				<div class="container mx-auto flex items-center">
-					<button @click="setHowlSong(song)" class="z-50 h-24 w-24 text-3xl bg-white text-black rounded-full focus:outline-none">
-						<i class="fas" :class="playingButtonIcon"/>
+					<button @click="setHowlSong(song)" class="z-10 h-24 w-24 text-3xl bg-white text-black rounded-full focus:outline-none">
+						<i class="fas" :class="currentSongPlayingIcon(song)"/>
 					</button>
 					<div class="z-50 text-left ml-8">
 						<div class="text-3xl font-bold">{{ song.modifiedName }}</div>
@@ -19,7 +19,7 @@
 				<div class="bg-white rounded border border-gray-200 relative flex flex-col">
 					<div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200">
 
-						<span class="card-title">{{$tc('song.commentsCount', comments.length, {count: comments.length})}}</span>
+						<span class="card-title">{{ $tc('song.commentsCount', comments.length, {count: comments.length}) }}</span>
 						<i class="fa fa-comments float-right text-green-400 text-2xl"/>
 					</div>
 					<div class="p-6">
@@ -72,7 +72,7 @@ const comments = ref<Comment[]>([]);
 const initialDateSortDirection = localStorage.getItem(LocalStorageKeys.COMMENTS_DATE_SORT_DIRECTION) as OrderByDirection || 'asc';
 const dateSortDirection = ref(initialDateSortDirection);
 const playerStore = usePlayerStore();
-const {playingButtonIcon} = storeToRefs(playerStore);
+const {currentSongPlayingIcon} = storeToRefs(playerStore);
 
 onMounted(async () => {
 	const {snapshot, doc} = await getSongByID(id.toString());

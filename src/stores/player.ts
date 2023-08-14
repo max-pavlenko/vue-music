@@ -14,12 +14,17 @@ export const usePlayerStore = defineStore('player', () => {
       return sound.value?.playing() ?? false;
    });
 
-   const playingButtonIcon = computed(() => {
+   const currentSongPlayingIcon = computed(() => (currentPlayingSong: Song) => {
+      return isPlaying.value && currentPlayingSong.id === song.value?.id ? 'fa-pause' : 'fa-play';
+   });
+
+   const playingIcon = computed(() => {
       return isPlaying.value ? "fa-pause" : "fa-play";
    });
 
    function setHowlSong(newSong: Song) {
-      if (sound.value instanceof Howl) return toggleSongAudio();
+      if (sound.value instanceof Howl && song.value.id === newSong.id) return toggleSongAudio();
+      sound.value?.stop();
       song.value = newSong;
 
       sound.value = new Howl({
@@ -54,5 +59,5 @@ export const usePlayerStore = defineStore('player', () => {
       })
    }
 
-   return {song, setHowlSong, toggleSongAudio, isPlaying, soundInfo, seekAudioTo, playingButtonIcon};
+   return {song, setHowlSong, toggleSongAudio, isPlaying, soundInfo, seekAudioTo, playingIcon, currentSongPlayingIcon};
 })
