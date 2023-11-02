@@ -1,7 +1,7 @@
-import type {Directive} from "vue";
+import type {Directive} from 'vue';
 
-export const Icon = {
+export const Icon: Directive = {
    beforeMount: (el, {value}) => {
       el.insertAdjacentHTML('beforeend', `<i class="fa fa-${value}"/>`)
    }
-} as Directive<HTMLElement, string>
+}

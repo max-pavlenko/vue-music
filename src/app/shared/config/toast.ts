@@ -1,5 +1,5 @@
-import {PluginOptions, POSITION, useToast} from "vue-toastification";
-import {isFirebaseError} from "@/app/shared/types/guards";
+import {PluginOptions, POSITION, useToast} from 'vue-toastification';
+import {isFirebaseError} from '@/app/shared/models/guards';
 
 export const TOAST_CONFIG: PluginOptions = {
    position: POSITION.TOP_RIGHT,
@@ -17,9 +17,8 @@ export const TOAST_CONFIG: PluginOptions = {
    newestOnTop: true
 }
 
-export function toastError(e: any, defaultMessage = '') {
+export function toastError(e: any, defaultMessage = `Error Code: ${e.code}`) {
    const {error} = useToast();
-   const nonFirebaseErrorMessage = defaultMessage || `Error Code: ${e.code}`;
-   const errorMessage = isFirebaseError(e) ? e.message : nonFirebaseErrorMessage;
+   const errorMessage = isFirebaseError(e) ? e.message : defaultMessage;
    error(errorMessage);
 }

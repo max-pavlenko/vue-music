@@ -1,8 +1,8 @@
 <template>
-	<div class="fixed z-10 inset-0 overflow-y-auto" :class="modalClass" id="modal">
+	<div v-show="isAuthModalVisible" class="fixed z-10 inset-0 overflow-y-auto">
 		<div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
 			<div class="fixed inset-0 transition-opacity" @click.stop="toggleIsAuthModalVisible">
-				<div class="absolute inset-0 bg-gray-800 opacity-75"></div>
+				<div class="absolute inset-0 bg-gray-800 opacity-75"/>
 			</div>
 
 			<span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
@@ -13,26 +13,26 @@
 					<div class="flex justify-between items-center pb-4">
 						<p class="text-2xl font-bold">Your Account</p>
 						<div class="modal-close cursor-pointer z-50" @click="toggleIsAuthModalVisible">
-							<i class="fas fa-times" />
+							<i class="fa fa-times"/>
 						</div>
 					</div>
 
-					<ul class="flex flex-wrap mb-4">
-						<li class="flex-auto text-center">
-							<button class="block w-full rounded py-3 px-4 transition " :class="authLinksClass(AuthMode.LOGIN)"
+					<ul class="flex flex-wrap mb-4 text-center">
+						<li class="flex-auto ">
+							<button :class="authLinksClass(AuthMode.LOGIN)" class="w-full rounded py-3 px-4 "
 									@click="currentAuthTab = AuthMode.LOGIN">
 								Login
 							</button>
 						</li>
-						<li class="flex-auto text-center">
-							<button class="block w-full rounded py-3 px-4 transition" :class="authLinksClass(AuthMode.REGISTER)"
+						<li class="flex-auto">
+							<button :class="authLinksClass(AuthMode.REGISTER)" class="w-full rounded py-3 px-4"
 									@click="currentAuthTab = AuthMode.REGISTER">
 								Register
 							</button>
 						</li>
 					</ul>
 
-					<Transition name="fade" mode="out-in">
+					<Transition mode="out-in" name="fade">
 						<FormLogin v-if="isCurrentAuthMode(AuthMode.LOGIN)"/>
 						<FormRegister v-else-if="isCurrentAuthMode(AuthMode.REGISTER)"/>
 					</Transition>
@@ -42,13 +42,13 @@
 	</div>
 </template>
 
-<script setup lang="ts">
-import {storeToRefs} from "pinia";
-import {useAuthStore} from "@/stores/auth";
-import {computed, ref} from "vue";
-import {AuthMode} from "@/app/shared/components/layout/TheAuthModal/types";
-import FormLogin from "@/app/features/auth/components/FormLogin.vue";
-import FormRegister from "@/app/features/auth/components/FormRegister.vue";
+<script lang="ts" setup>
+import {storeToRefs} from 'pinia';
+import {useAuthStore} from '@/store/auth';
+import {computed, ref} from 'vue';
+import FormLogin from '@/app/features/auth/components/FormLogin.vue';
+import FormRegister from '@/app/features/auth/components/FormRegister.vue';
+import {AuthMode} from '@/app/shared/models/auth';
 
 const currentAuthTab = ref(AuthMode.LOGIN);
 
@@ -66,8 +66,4 @@ const authLinksClass = computed(() => (mode: AuthMode) => {
 const authStore = useAuthStore();
 const {toggleIsAuthModalVisible} = authStore;
 const {isAuthModalVisible} = storeToRefs(authStore);
-
-const modalClass = computed(() => {
-	return isAuthModalVisible.value ? '' : 'hidden';
-})
 </script>

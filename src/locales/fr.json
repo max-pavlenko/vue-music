@@ -1,5 +1,12 @@
 {
   "home": {
     "listen": "De la bonne musique"
+  },
+  "song": {
+    "commentsCount": "0 comments(fr) | 1 comment (fr) | ({count}) comments (fr)"
+  },
+  "register": {
+    "tos": "Terms of Service (fr)",
+    "accept": "I accept {0} (fr)"
   }
 }

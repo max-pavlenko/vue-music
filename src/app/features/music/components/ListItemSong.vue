@@ -1,26 +1,29 @@
 <template>
-	<li class="flex justify-between items-center p-3 pl-6 cursor-pointer transition duration-300 hover:bg-gray-50">
-		<div>
-			<RouterLink :to="`/song/${song.id}`" class="font-bold block text-gray-600">{{ song.modifiedName }}</RouterLink>
+	<figure class="flex justify-between items-center p-3 pl-6 hover:bg-gray-50">
+		<figcaption>
+			<RouterLink :to="`/song/${song.id}`" class="font-bold block text-gray-600">{{
+					song.modifiedName
+				}}
+			</RouterLink>
 			<span class="text-gray-500 text-sm">{{ song.creatorName }}</span>
-		</div>
+		</figcaption>
 
-		<div class="text-gray-600 text-lg">
-			<RouterLink custom :to="{name: RouteName.SONG, params: {id: song.id}, hash: '#comments'}" v-slot="{navigate}">
-				<span @click="navigate">
+		<RouterLink v-slot="{navigate}" :to="{name: RouteName.SONG, params: {id: song.id}, hash: '#comments'}"
+					class="text-gray-600 text-lg" custom>
+				<span class="cursor-pointer" @click="navigate">
 					<i class="fa fa-comments text-gray-600"/>
 					{{ song.commentsCount }}
 				</span>
-			</RouterLink>
-		</div>
-	</li>
+		</RouterLink>
+	</figure>
 </template>
 
-<script setup lang="ts">
-import type {Song} from "@/app/shared/types";
-import {RouteName} from "@/router/constants";
+<script lang="ts" setup>
+import {RouteName} from '@/app/shared/router/constants';
+import {Song} from '@/app/features/music/models/audio';
+import {toRefs} from 'vue';
 
 const props = defineProps<{ song: Song }>();
-const {song} = props;
+const {song} = toRefs(props);
 
 </script>

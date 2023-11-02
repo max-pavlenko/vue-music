@@ -1,6 +1,6 @@
-import {beforeEach, describe, expect, vi, test} from 'vitest';
-import {createPinia, setActivePinia} from "pinia";
-import {useAuthStore} from "@/stores/auth";
+import {beforeEach, describe, expect, test, vi} from 'vitest';
+import {createPinia, setActivePinia} from 'pinia';
+import {useAuthStore} from '@/store/auth';
 
 vi.mock('@/includes/firebase', () => ({
   auth:{

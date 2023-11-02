@@ -1,45 +1,38 @@
 <template>
-  <div class="border border-gray-200 p-3 mb-4 rounded">
-    <div v-show="isCollapsed">
-      <h4 class="inline-block text-2xl font-bold">{{ song.modifiedName }}</h4>
-      <button @click="handleDeleteSongClick" class="ml-1 py-1 px-2 text-sm rounded text-white bg-red-600 float-right">
-        <i class="fa fa-times"/>
-      </button>
-      <button @click="isCollapsed = !isCollapsed" class="ml-1 py-1 px-2 text-sm rounded text-white bg-blue-600 float-right">
-        <i class="fa fa-pencil-alt"/>
-      </button>
-    </div>
-    <Form :validation-schema="EDIT_SONG_SCHEMA" v-show="!isCollapsed" @submit="handleEditSongFormSubmit">
-      <div class="mb-3">
-        <label class="inline-block mb-2">{{ song.modifiedName }}</label>
-        <FormInput :value="song.modifiedName" name="song_title" type="text" placeholder="Enter Song Title"
-                   class="block w-full py-1.5 px-3 text-gray-800 transition duration-500 focus:outline-none focus:border-black rounded"
-        />
-      </div>
-      <div class="mb-3">
-        <FormInput :value="song.genre || ''" name="genre" placeholder="Enter Genre"
-                   class="block w-full py-1.5 px-3 text-gray-800 transition duration-500 focus:outline-none focus:border-black rounded"
-        />
-      </div>
-      <button :disabled="state.isLoading" type="submit" class="py-1.5 px-3 rounded text-white bg-green-600">
-        Submit
-      </button>
-      <button @click="isCollapsed = !isCollapsed" type="button" class="py-1.5 px-3 rounded text-white bg-gray-600">
-        Go Back
-      </button>
-    </Form>
-  </div>
+	<div class="border border-gray-200 p-3 mb-4 rounded">
+		<div class="flex justify-between" v-show="isCollapsed">
+			<h4 class="inline-block text-2xl font-bold">{{ song.modifiedName }}</h4>
+			<div class="text-sm flex gap-2 justify-end">
+				<Button class="bg-blue-600" @click="isCollapsed = !isCollapsed">
+					<i class="fa fa-pencil"/>
+				</Button>
+				<Button class="bg-red-600" @click="handleDeleteSongClick">
+					<i class="fa fa-times"/>
+				</Button>
+			</div>
+		</div>
+		<Form v-show="!isCollapsed" :validation-schema="EDIT_SONG_SCHEMA" class="flex flex-col gap-3 mt-3" @submit="handleEditSongFormSubmit">
+			<Input :value="song.modifiedName" placeholder="Enter Song Title" title="song_title" />
+			<Input :value="song.genre || ''" placeholder="Enter Genre" title="genre"/>
+			<Button :disabled="state.isLoading" class="bg-green-600">
+				Submit
+			</Button>
+			<Button class="bg-gray-600 self-end" type="button" @click="isCollapsed = !isCollapsed">
+				Go Back
+			</Button>
+		</Form>
+	</div>
 </template>
 
-<script setup lang="ts">
-import type {Emits, Props} from "@/app/features/music/types/FormEditSong";
-import {ref, watchEffect} from "vue";
+<script lang="ts" setup>
+import {ref} from 'vue';
 import {Form} from 'vee-validate';
-import {EDIT_SONG_SCHEMA} from "@/app/features/music/constants/schemas";
-import FormInput from "@/app/shared/components/ui/FormInput.vue";
-import {songsCollection, storage} from "@/includes/firebase";
-import {toastError} from "@/app/shared/config/toast";
-import {useAsync} from "@/app/shared/hooks/useAsync";
+import {EDIT_SONG_SCHEMA} from '@/app/features/music/constants/schemas';
+import Input from '@/app/shared/components/ui/atoms/Input.vue';
+import {useAsync} from '@/app/shared/hooks/useAsync';
+import {Emits, Props} from '@/app/features/music/models/form-edit-song';
+import Button from '@/app/shared/components/ui/atoms/Button.vue';
+import {SongService} from '@/app/features/music/services/song';
 
 const emit = defineEmits<Emits>();
 const {song} = defineProps<Props>();
@@ -51,25 +44,14 @@ async function handleEditSongFormSubmit(values: typeof EDIT_SONG_SCHEMA) {
 }
 
 async function updateSong(values: typeof EDIT_SONG_SCHEMA) {
-	await songsCollection.doc(song.id).update({
-		modifiedName: values.song_title,
-		genre: values.genre,
-	});
+	const editSongRequestData = {...values, id: song.id};
+	await SongService.update(editSongRequestData);
 	isCollapsed.value = true;
-	emit('onSubmit', {...values, id: song.id});
+	emit('onSubmit', editSongRequestData);
 }
 
 async function handleDeleteSongClick() {
-  try {
-    emit('onDelete', {id: song.id});
-    const storageRef = storage.ref();
-    const songRef = storageRef.child(`/songs/${song.originalName}`);
-    await Promise.all([
-      songRef.delete(),
-      songsCollection.doc(song.id).delete()
-    ])
-  } catch (e) {
-    toastError(e);
-  }
+	emit('onDelete', {id: song.id});
+	await SongService.delete(song);
 }
 </script>

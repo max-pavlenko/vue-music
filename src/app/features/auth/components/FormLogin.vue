@@ -1,30 +1,31 @@
 <template>
 	<Form :validationSchema="LOGIN_SCHEMA" @submit="handleLoginFormSubmit">
-		<Input name="email" placeholder="Enter Name" type="text"/>
-		<Input name="password" placeholder="Password" type="password"/>
-		<button type="submit" :disabled="state.isLoading"
-				class="block w-full bg-purple-600 text-white py-1.5 px-3 mt-3 rounded transition hover:bg-purple-700">
+		<Input title="email" placeholder="Enter Name" type="text"/>
+		<Input title="password" placeholder="Password" type="password"/>
+		<Button :disabled="state.isLoading"
+				class="w-full disabled:bg-purple-900 bg-purple-600 mt-3 hover:bg-purple-700">
 			Submit
-		</button>
+		</Button>
 	</Form>
 </template>
 
 <script setup lang="ts">
 import {Form} from 'vee-validate';
-import Input from "@/app/shared/components/ui/FormInput.vue";
-import {useAuthStore} from "@/stores/auth";
-import {isLoginForm} from "@/app/features/auth/types/guards";
-import {useToast} from "vue-toastification";
-import {LOGIN_SCHEMA} from "@/app/features/auth/constants/schemas";
-import {useAsync} from "@/app/shared/hooks/useAsync";
+import Input from '@/app/shared/components/ui/atoms/Input.vue';
+import {useAuthStore} from '@/store/auth';
+import {isLoginForm} from '@/app/features/auth/types/guards';
+import {useToast} from 'vue-toastification';
+import {LOGIN_SCHEMA} from '@/app/features/auth/constants/schemas';
+import {useAsync} from '@/app/shared/hooks/useAsync';
+import Button from '@/app/shared/components/ui/atoms/Button.vue';
 
-const {login} = useAuthStore();
+const authStore = useAuthStore();
 const {success} = useToast();
-const {execute, state} = useAsync(login);
+const {execute: login, state} = useAsync(authStore.login);
 
 async function handleLoginFormSubmit(values: unknown) {
 	if (!isLoginForm(values)) return;
-	await execute(values);
+	await login(values);
 	state.isSuccess && success('Successfully logged in!');
 }
 </script>

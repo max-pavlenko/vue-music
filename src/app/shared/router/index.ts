@@ -1,6 +1,6 @@
-import {createRouter, createWebHistory} from 'vue-router'
-import {useAuthStore} from "@/stores/auth";
-import {routes} from "@/router/constants";
+import {createRouter, createWebHistory} from 'vue-router';
+import {useAuthStore} from '@/store/auth';
+import {RouteName, routes} from '@/app/shared/router/constants';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,10 +8,10 @@ const router = createRouter({
     linkActiveClass: 'text-[violet]',
 })
 
-router.beforeEach(({meta: {isProtected}}, from, next) => {
+router.beforeEach(({meta: {isProtected}}, _, next) => {
     const authStore = useAuthStore();
     if (isProtected && !authStore.isAuthenticated) {
-        next({name: 'home'});
+        next({name: RouteName.HOME});
     }
     next();
 });

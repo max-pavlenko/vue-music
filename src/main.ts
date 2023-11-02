@@ -1,18 +1,18 @@
-import './styles/main.css'
-import 'nprogress/nprogress.css'
-import "vue-toastification/dist/index.css";
-import {createApp} from 'vue'
-import {createPinia} from 'pinia'
-import App from './App.vue'
-import router from './router'
-import {setupValidation} from "@/app/shared/config/validation";
-import Toast from "vue-toastification";
-import {TOAST_CONFIG} from "@/app/shared/config/toast";
-import {auth} from "@/includes/firebase";
-import {Icon} from "@/directives/Icon";
-import i18n from "@/includes/i18n";
+import './styles/main.css';
+import 'nprogress/nprogress.css';
+import 'vue-toastification/dist/index.css';
+import {createApp} from 'vue';
+import {createPinia} from 'pinia';
+import App from './App.vue';
+import router from './app/shared/router';
+import {setupValidation} from '@/app/shared/config/validation';
+import Toast from 'vue-toastification';
+import {TOAST_CONFIG} from '@/app/shared/config/toast';
+import {auth} from '@/includes/firebase';
+import {Icon} from '@/directives/Icon';
+import i18n from '@/includes/i18n';
 import {registerSW} from 'virtual:pwa-register';
-import createNProgress from "@/includes/NProgress";
+import createNProgress from '@/includes/NProgress';
 
 registerSW({immediate: true});
 createNProgress(router);

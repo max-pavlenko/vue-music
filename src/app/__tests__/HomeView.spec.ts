@@ -1,8 +1,8 @@
-import {shallowMount} from "@vue/test-utils";
+import {shallowMount} from '@vue/test-utils';
 import {describe, expect, test} from 'vitest';
-import HomeView from "@/views/HomeView.vue";
-import ListItemSong from "@/app/features/music/components/ListItemSong.vue";
-import {Song} from "@/app/shared/types";
+import HomeView from '@/views/HomeView.vue';
+import ListItemSong from '@/app/features/music/components/ListItemSong.vue';
+import {Song} from '@/app/features/music/models/audio';
 
 describe('HomeView', () => {
    test('renders properly', () => {

@@ -1,0 +1,3 @@
+export enum LocalStorageKeys {
+   COMMENTS_DATE_SORT_DIRECTION = 'COMMENTS_DATE_SORT_DIRECTION',
+}
