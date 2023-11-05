@@ -37,14 +37,15 @@ export class SongService {
    }
    
    static async postComment({comment, songID}: { comment: string, songID: string }) {
-      const {uid, displayName = 'Anonymous'} = auth.currentUser;
+      if(!auth.currentUser) return toastError('You must be logged in to comment');
+      const {uid, displayName} = auth.currentUser;
       const newComment: Comment = {
          id: crypto.randomUUID(),
          content: comment,
          date: new Date().toString(),
          songID,
          authorID: uid,
-         authorName: displayName,
+         authorName: displayName ?? 'Anonymous',
       };
       const batch = db.batch();
       batch.set(commentsCollection.doc(newComment.id), newComment);

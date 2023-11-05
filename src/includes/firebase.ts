@@ -1,4 +1,4 @@
-import firebase from "firebase/compat/app";
+import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import 'firebase/compat/storage';
@@ -20,7 +20,6 @@ if (!firebase.apps.length) {
 
 const auth = firebase.auth(app);
 const db = firebase.firestore(app);
-db.enablePersistence().catch(er => {console.log(er.code, 'er.code')});
 const storage = firebase.storage(app);
 const increment = firebase.firestore.FieldValue.increment;
 

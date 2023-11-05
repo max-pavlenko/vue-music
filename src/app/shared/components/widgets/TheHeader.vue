@@ -1,40 +1,30 @@
 <template>
-   <header class="bg-gray-700">
-      <nav class="container mx-auto flex items-center py-5 px-4">
-         <RouterLink :to="{name: RouteName.HOME}" class="font-bold uppercase text-white text-2xl mr-4">Music</RouterLink>
-         <div class="flex flex-grow items-center">
-            <ul class="flex mt-1">
-               <li v-if="!isAuthenticated">
-                  <button class="px-2 text-white" @click="handleAuthClick">Login / Register</button>
-               </li>
-               <template v-else>
-                  <li>
-                     <RouterLink :to="{name: RouteName.MANAGE}" class="px-2 text-white">Manage</RouterLink>
-                  </li>
-                  <li>
-                     <button class="px-2 text-white" @click="handleLogoutClick">Log out</button>
-                  </li>
-               </template>
-            </ul>
-         </div>
-      </nav>
-   </header>
+	<header class="bg-gray-700">
+		<nav class="container mx-auto flex items-center py-5 px-4 text-white">
+			<RouterLink :to="{name: RouteName.HOME}" class="font-bold uppercase text-2xl mr-6">
+				Music
+			</RouterLink>
+			<div class="flex gap-4">
+				<button v-if="!isAuthenticated" @click="toggleAuthModalVisibility">
+					Login / Register
+				</button>
+				<template v-else>
+					<RouterLink :to="{name: RouteName.MANAGE}">Manage</RouterLink>
+					<button @click="logOut">Log out</button>
+				</template>
+				<RouterLink :to="RouteName.ABOUT">About</RouterLink>
+			</div>
+		</nav>
+	</header>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {useAuthStore} from '@/store/auth';
 import {storeToRefs} from 'pinia';
 import {RouteName} from '@/app/shared/router/constants';
+import {useAuthStoreActions} from '@/store/auth/actions';
 
 const authStore = useAuthStore();
-const {toggleIsAuthModalVisible, logOut} = authStore;
+const {toggleAuthModalVisibility, logOut} = useAuthStoreActions();
 const {isAuthenticated} = storeToRefs(authStore);
-
-function handleAuthClick() {
-   toggleIsAuthModalVisible();
-}
-
-async function handleLogoutClick() {
-   await logOut();
-}
 </script>

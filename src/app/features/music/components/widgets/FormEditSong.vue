@@ -6,12 +6,12 @@
 				<Button class="bg-blue-600" @click="isCollapsed = !isCollapsed">
 					<i class="fa fa-pencil"/>
 				</Button>
-				<Button class="bg-red-600" @click="handleDeleteSongClick">
+				<Button class="bg-red-600" @click="handleDeleteSong">
 					<i class="fa fa-times"/>
 				</Button>
 			</div>
 		</div>
-		<Form v-show="!isCollapsed" :validation-schema="EDIT_SONG_SCHEMA" class="flex flex-col gap-3 mt-3" @submit="handleEditSongFormSubmit">
+		<Form v-show="!isCollapsed" :validation-schema="MUSIC_VALIDATION_SCHEMA.EDIT_SONG" class="flex flex-col gap-3 mt-3" @submit="handleEditSongFormSubmit">
 			<Input :value="song.modifiedName" placeholder="Enter Song Title" title="song_title" />
 			<Input :value="song.genre || ''" placeholder="Enter Genre" title="genre"/>
 			<Button :disabled="state.isLoading" class="bg-green-600">
@@ -26,31 +26,32 @@
 
 <script lang="ts" setup>
 import {ref} from 'vue';
-import {Form} from 'vee-validate';
-import {EDIT_SONG_SCHEMA} from '@/app/features/music/constants/schemas';
+import {Form, SubmissionHandler} from 'vee-validate';
+import {MUSIC_VALIDATION_SCHEMA} from '@/app/features/music/constants/schemas';
 import Input from '@/app/shared/components/ui/atoms/Input.vue';
 import {useAsync} from '@/app/shared/hooks/useAsync';
 import {Emits, Props} from '@/app/features/music/models/form-edit-song';
 import Button from '@/app/shared/components/ui/atoms/Button.vue';
 import {SongService} from '@/app/features/music/services/song';
+import {MusicValidationSchema} from '@/app/features/music/models/validation';
 
 const emit = defineEmits<Emits>();
 const {song} = defineProps<Props>();
 const isCollapsed = ref(true);
 const {execute, state} = useAsync(updateSong);
 
-async function handleEditSongFormSubmit(values: typeof EDIT_SONG_SCHEMA) {
-	await execute(values);
+const handleEditSongFormSubmit: SubmissionHandler = async (values) => {
+	await execute(values as MusicValidationSchema['EDIT_SONG']);
 }
 
-async function updateSong(values: typeof EDIT_SONG_SCHEMA) {
+async function updateSong(values: MusicValidationSchema['EDIT_SONG']) {
 	const editSongRequestData = {...values, id: song.id};
 	await SongService.update(editSongRequestData);
 	isCollapsed.value = true;
 	emit('onSubmit', editSongRequestData);
 }
 
-async function handleDeleteSongClick() {
+async function handleDeleteSong() {
 	emit('onDelete', {id: song.id});
 	await SongService.delete(song);
 }

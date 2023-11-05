@@ -29,7 +29,7 @@
     "vee-validate": "^4.10.8",
     "vite-plugin-pwa": "^0.16.4",
     "vue": "^3.3.4",
-    "vue-i18n": "^9.2.2",
+    "vue-i18n": "^9.6.5",
     "vue-router": "^4.2.2",
     "vue-toastification": "^2.0.0-rc.5"
   },
@@ -37,7 +37,6 @@
     "@tsconfig/node18": "^2.0.1",
     "@types/jsdom": "^21.1.1",
     "@types/node": "^18.16.17",
-    "@types/vue-i18n": "^7.0.0",
     "@vitejs/plugin-vue": "^4.2.3",
     "@vitejs/plugin-vue-jsx": "^3.0.1",
     "@vue/test-utils": "^2.3.2",

@@ -1,12 +1,12 @@
 <template>
-	<Form :validationSchema="REGISTER_SCHEMA" :initialValues="REGISTER_FORM_INITIAL_VALUES" class="flex flex-col gap-3" @submit="handleRegisterFormSubmit">
+	<Form :validationSchema="AUTH_VALIDATION_SCHEMA.REGISTER" :initialValues="REGISTER_FORM_INITIAL_VALUES" class="flex flex-col gap-3" @submit="handleRegisterFormSubmit">
 		<Input title="displayName" placeholder="Enter Name" type="text" />
 		<Input title="email" placeholder="Enter Email" type="email"/>
 		<Input title="age" type="number"/>
 		<Input title="password" placeholder="Password" type="password"/>
 		<Input title="password_confirm" placeholder="Confirm Password" type="password"/>
 		<Input title="country" as="select">
-			<option v-for="country in REGISTER_COUNTRIES" :value="country">{{ country }}</option>
+			<option v-for="country in AVAILABLE_COUNTRIES" :value="country">{{ country }}</option>
 		</Input>
 
 		<div class="flex gap-2 items-center">
@@ -26,20 +26,21 @@ import {ErrorMessage, Field, Form, SubmissionHandler} from 'vee-validate';
 import Input from '@/app/shared/components/ui/atoms/Input.vue';
 import {useAuthStore} from '@/store/auth';
 import {useToast} from 'vue-toastification';
-import {REGISTER_SCHEMA} from '@/app/features/auth/constants/schemas';
-import {REGISTER_FORM_INITIAL_VALUES} from '@/app/features/auth/constants/registration';
+import {AUTH_VALIDATION_SCHEMA} from '@/app/features/auth/constants/schemas';
+import {AVAILABLE_COUNTRIES, REGISTER_FORM_INITIAL_VALUES} from '@/app/features/auth/constants/registration';
 import {useAsync} from '@/app/shared/hooks/useAsync';
-import {REGISTER_COUNTRIES} from '@/app/features/auth/constants/countries';
-import {isRegisterForm} from '@/app/features/auth/types/guards';
+import {isRegisterForm} from '@/app/features/auth/models/guards';
 import Button from '@/app/shared/components/ui/atoms/Button.vue';
+import {AuthValidationSchema} from '@/app/features/auth/models/validation';
+import {useAuthStoreActions} from '@/store/auth/actions';
 
 const authStore = useAuthStore();
 const {success} = useToast();
-const {execute: register, state} = useAsync(authStore.register);
+const {execute: register, state} = useAsync(useAuthStoreActions().register);
 
 const handleRegisterFormSubmit: SubmissionHandler = async (values) => {
 	if (!isRegisterForm(values)) return;
-	await register(values as typeof REGISTER_SCHEMA);
+	await register(values as AuthValidationSchema['REGISTER']);
 	state.isSuccess && success('Successfully created an account!');
 }
 </script>

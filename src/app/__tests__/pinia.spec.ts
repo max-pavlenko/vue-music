@@ -1,6 +1,7 @@
 import {beforeEach, describe, expect, test, vi} from 'vitest';
 import {createPinia, setActivePinia} from 'pinia';
 import {useAuthStore} from '@/store/auth';
+import {useAuthStoreActions} from '@/store/auth/actions';
 
 vi.mock('@/includes/firebase', () => ({
   auth:{
@@ -21,8 +22,9 @@ describe('Pinia', () => {
 
   test('should be able to create a pinia instance', async () => {
     const store = useAuthStore();
+    const {login} = useAuthStoreActions();
     expect(store).toBeDefined();
-    await store.login({password: 'password', username: 'username'});
+    await login({password: 'password', email: 'username'});
     expect(store.isAuthenticated).toBe(true);
   });
 })

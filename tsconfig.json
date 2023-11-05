@@ -11,6 +11,7 @@
     "baseUrl": ".",
     "target": "ES2017",
     "module": "ES2022",
+    "types": ["vite/client", "vite-plugin-pwa/client"],
     "moduleResolution": "nodenext",
     "esModuleInterop": true,
     "strict": true,

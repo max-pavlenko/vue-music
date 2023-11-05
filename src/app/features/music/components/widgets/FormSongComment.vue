@@ -1,15 +1,15 @@
 <template>
-	<Form v-if="isAuthenticated" :validationSchema="SONG_COMMENT_SCHEMA" @submit="handleCommentSubmit">
-		<FormInput as="textarea" placeholder="Your comment here..." title="comment"/>
+	<Form v-if="isAuthenticated" :validationSchema="MUSIC_VALIDATION_SCHEMA.SONG_COMMENT" @submit="handleCommentSubmit">
+		<Input as="textarea" placeholder="Your comment here..." title="comment"/>
 		<AsyncButton class="mt-2" :state="state">Submit</AsyncButton>
 	</Form>
 </template>
 
 <script setup lang="ts">
 import {Form, SubmissionHandler} from 'vee-validate';
-import {SONG_COMMENT_SCHEMA} from '@/app/features/music/constants/schemas';
+import {MUSIC_VALIDATION_SCHEMA} from '@/app/features/music/constants/schemas';
 import {useAsync} from '@/app/shared/hooks/useAsync';
-import FormInput from '@/app/shared/components/ui/atoms/Input.vue';
+import Input from '@/app/shared/components/ui/atoms/Input.vue';
 import {storeToRefs} from 'pinia';
 import {useAuthStore} from '@/store/auth';
 import {toRefs} from 'vue';

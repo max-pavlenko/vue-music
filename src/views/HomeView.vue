@@ -14,10 +14,10 @@
 
 <script lang="ts" setup>
 import {onMounted, ref} from 'vue';
-import ListItemSong from '@/app/features/music/components/ListItemSong.vue';
 import {Song} from '@/app/features/music/models/audio';
 import {SongService} from '@/app/features/music/services/song';
 import HeroBanner from '@/app/shared/components/widgets/HeroBanner.vue';
+import ListItemSong from '@/app/features/music/components/ui/ListItemSong.vue';
 
 const songs = ref<Song[]>([]);
 

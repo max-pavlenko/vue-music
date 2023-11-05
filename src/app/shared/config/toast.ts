@@ -1,5 +1,5 @@
 import {PluginOptions, POSITION, useToast} from 'vue-toastification';
-import {isFirebaseError} from '@/app/shared/models/guards';
+import {isFirebaseError} from '@/app/shared/types/guards';
 
 export const TOAST_CONFIG: PluginOptions = {
    position: POSITION.TOP_RIGHT,

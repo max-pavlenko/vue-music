@@ -11,23 +11,23 @@
 				<div class="mb-3">
 					<FormSongComment :on-comment-submit="handleCommentSubmit" :song="song"/>
 				</div>
-				<FormInput :value="dateSortDirection" as="select"
+				<Input :value="dateSortDirection" as="select"
 						   title="comments_date" @change="handleDateSortDirectionChange">
 					<option value="desc">Latest</option>
 					<option value="asc">Oldest</option>
-				</FormInput>
+				</Input>
 			</div>
 		</div>
 	</section>
 </template>
 
 <script setup lang="ts">
-import FormSongComment from '@/app/features/music/components/FormSongComment.vue';
-import FormInput from '@/app/shared/components/ui/atoms/Input.vue';
 import {LocalStorageKeys} from '@/app/shared/models/local-storage';
 import {ref, toRefs} from 'vue';
-import firebase from '@/includes/firebase';
+import Input from '@/app/shared/components/ui/atoms/Input.vue';
 import {Song} from '@/app/features/music/models/audio';
+import firebase from '@/includes/firebase';
+import FormSongComment from '@/app/features/music/components/widgets/FormSongComment.vue';
 import OrderByDirection = firebase.firestore.OrderByDirection;
 
 type Emits = {

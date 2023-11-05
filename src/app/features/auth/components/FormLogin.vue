@@ -1,5 +1,5 @@
 <template>
-	<Form :validationSchema="LOGIN_SCHEMA" @submit="handleLoginFormSubmit">
+	<Form :validationSchema="AUTH_VALIDATION_SCHEMA['LOGIN']" @submit="handleLoginFormSubmit">
 		<Input title="email" placeholder="Enter Name" type="text"/>
 		<Input title="password" placeholder="Password" type="password"/>
 		<Button :disabled="state.isLoading"
@@ -12,16 +12,15 @@
 <script setup lang="ts">
 import {Form} from 'vee-validate';
 import Input from '@/app/shared/components/ui/atoms/Input.vue';
-import {useAuthStore} from '@/store/auth';
-import {isLoginForm} from '@/app/features/auth/types/guards';
+import {isLoginForm} from '@/app/features/auth/models/guards';
 import {useToast} from 'vue-toastification';
-import {LOGIN_SCHEMA} from '@/app/features/auth/constants/schemas';
+import {AUTH_VALIDATION_SCHEMA} from '@/app/features/auth/constants/schemas';
 import {useAsync} from '@/app/shared/hooks/useAsync';
 import Button from '@/app/shared/components/ui/atoms/Button.vue';
+import {useAuthStoreActions} from '@/store/auth/actions';
 
-const authStore = useAuthStore();
 const {success} = useToast();
-const {execute: login, state} = useAsync(authStore.login);
+const {execute: login, state} = useAsync(useAuthStoreActions().login);
 
 async function handleLoginFormSubmit(values: unknown) {
 	if (!isLoginForm(values)) return;

@@ -24,15 +24,15 @@
 import {auth, songsCollection} from '@/includes/firebase';
 import {Reference} from '@firebase/storage-types';
 import {ref} from 'vue';
-import {useSongsStore} from '@/store/songs';
-import ListEditSongForms from '@/app/features/music/components/ListEditSongForms.vue';
 import {AreaDnDEmits, UploadingFile} from '@/app/shared/models/file';
-import {EmitHandler} from '@/app/shared/models/auth';
 import {FileService} from '@/app/shared/services/file';
 import {UploadingFileStatus} from '@/app/shared/models/file-status';
 import AreaDnD from '@/app/shared/components/ui/atoms/AreaDnD.vue';
+import ListEditSongForms from '@/app/features/music/components/widgets/ListEditSongForms.vue';
+import {EmitHandler} from '@/app/shared/types/utility';
+import {useSongsActions} from '@/store/songs/actions';
 
-const {addSong} = useSongsStore();
+const {add} = useSongsActions();
 const uploadingFiles = ref<UploadingFile[]>([]);
 
 const handleUploadAudioFile: EmitHandler<AreaDnDEmits['onUploadFile']> = async (file, idx) => {
@@ -64,6 +64,6 @@ const handleUploadAudioSuccess = async (ref: Reference) => {
 		url: await ref.getDownloadURL(),
 	};
 	const {id} = await songsCollection.add(song);
-	addSong({...song, id});
+	add({...song, id});
 };
 </script>

@@ -1,6 +1,5 @@
 import {alpha_spaces, confirmed, digits, email, max, max_value, min, min_value, not_one_of, required} from '@vee-validate/rules';
-import type {FieldValidationMetaInfo} from 'vee-validate';
-import {configure, defineRule} from 'vee-validate';
+import {configure, defineRule, FieldValidationMetaInfo} from 'vee-validate';
 
 export function setupValidation() {
    defineRule('required', required);
@@ -28,7 +27,8 @@ export function setupValidation() {
    })
 }
 
-function getValidationErrorMessage({field: fieldName, value, rule: {params}}: FieldValidationMetaInfo): Record<string, string> {
+function getValidationErrorMessage({field: fieldName, value, rule}: FieldValidationMetaInfo): Record<string, string> {
+    const params = (rule?.params ?? ['no params']) as string[];
    return {
       required: `${fieldName} is required`,
       min: `${fieldName} is too short (${params[0]} characters minimum)`,

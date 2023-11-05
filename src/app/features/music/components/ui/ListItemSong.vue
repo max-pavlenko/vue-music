@@ -9,9 +9,9 @@
 		</figcaption>
 
 		<RouterLink v-slot="{navigate}" :to="{name: RouteName.SONG, params: {id: song.id}, hash: '#comments'}"
-					class="text-gray-600 text-lg" custom>
-				<span class="cursor-pointer" @click="navigate">
-					<i class="fa fa-comments text-gray-600"/>
+					custom>
+				<span class="cursor-pointer text-gray-600 text-lg" @click="navigate">
+					<i class="fa fa-comments"/>
 					{{ song.commentsCount }}
 				</span>
 		</RouterLink>

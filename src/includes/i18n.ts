@@ -1,6 +1,6 @@
-import {createI18n} from 'vue-i18n';
 import en from '@/locales/en.json';
 import fr from '@/locales/fr.json';
+import {ComposerOptions, createI18n} from 'vue-i18n';
 
 export default createI18n({
    locale: 'fr',
@@ -18,5 +18,5 @@ export default createI18n({
          style: 'currency',
          currency: 'EUR',
       },
-   }
+   } as ComposerOptions['numberFormats']
 })
